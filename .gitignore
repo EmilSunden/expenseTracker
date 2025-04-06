@@ -1,0 +1,17 @@
+# Environment variables
+.env
+
+# Build outputs
+/bin/
+*.exe
+*.out
+
+# Temporary files
+/tmp/
+
+# Cache Files / IDE Configs
+.vscode/
+*.log
+
+# Ignore binary built in root
+/main

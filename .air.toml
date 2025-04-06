@@ -1,0 +1,23 @@
+# .air.toml
+
+# Working directory. Defaults to current directory.
+root = "."
+
+# Binary name to execute.
+bin = "expenses"  # Replace with your desired binary name
+
+# Command to run to build your application.
+cmd = "go build -o {{.Bin}} ."
+
+# The delay in seconds between detecting changes and re-running the command.
+delay = 1000
+
+# Patterns to exclude from watching.
+exclude_dir = ["assets", "tmp", ".git", "node_modules"]
+
+# File patterns to watch (default: **/*.go)
+include_ext = ["go"]
+
+# Optionally, you can set environment variables for the Air process.
+[env]
+  PORT = "8080"  # example: override or set env vars
