@@ -2,10 +2,7 @@ package config
 
 import (
 	"fmt"
-	"log"
 	"os"
-
-	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -25,10 +22,4 @@ func NewConfig() Config {
 
 func (c Config) HTTPAddress() string {
 	return fmt.Sprintf(":%s", c.Port)
-}
-
-func LoadEnv() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatalf("Error loading .env file")
-	}
 }
