@@ -3,7 +3,7 @@ import { useFetch } from "../hooks/useFetch";
 
 const GetExpenses = () => {
   const options = React.useMemo(() => ({}), []);
-  const { data, error, loading, refetch } = useFetch(
+  const { data, error, loading } = useFetch(
     "http://localhost:5000/api/expenses/get",
     options,
     true // autoFetch is enabled
@@ -18,9 +18,7 @@ const GetExpenses = () => {
       {data && data.expenses && (
         <ul>
           {data.expenses.map((expense) => (
-            <li key={expense.ID}>
-              {expense.category.name}: ${expense.amount}
-            </li>
+            <li key={expense.ID}>{expense.category?.name}</li>
           ))}
         </ul>
       )}
