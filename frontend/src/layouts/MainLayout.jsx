@@ -4,40 +4,63 @@ import { Outlet, Link } from "react-router-dom";
 
 const MainLayout = () => {
   return (
-    <div className="container mx-auto px-4 py-6">
-      {/* Shared Header/Nav */}
-      <header className="mb-4">
-        <nav>
-          <ul className="flex gap-4">
-            <li>
-              <Link to="/" className="text-blue-500">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/about" className="text-blue-500">
-                About
-              </Link>
-            </li>
-            {/* Add other navigation links */}
-            <li>
-              <Link to="/expenses" className="text-blue-500">
-                Expenses
-              </Link>
-            </li>
-          </ul>
-        </nav>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Header */}
+      <header className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg">
+        <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between">
+          <h1 className="text-3xl font-bold mb-2 md:mb-0">Expense Tracker</h1>
+          <nav>
+            <ul className="flex space-x-6">
+              <li>
+                <Link
+                  to="/"
+                  className="hover:text-gray-200 transition-colors duration-200"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/about"
+                  className="hover:text-gray-200 transition-colors duration-200"
+                >
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/expenses"
+                  className="hover:text-gray-200 transition-colors duration-200"
+                >
+                  Expenses
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/categories"
+                  className="hover:text-gray-200 transition-colors duration-200"
+                >
+                  Categories
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </header>
 
       {/* Main Content */}
-      <main>
-        {/* Outlet is where nested routes will be rendered */}
-        <Outlet />
+      <main className="container mx-auto px-4 py-6 flex-grow">
+        <div className="bg-white p-6 shadow rounded-lg">
+          {/* Nested routes will be rendered here */}
+          <Outlet />
+        </div>
       </main>
 
-      {/* Optional Footer */}
-      <footer className="mt-8 text-center text-gray-500">
-        © 2025 Your Company Name
+      {/* Footer */}
+      <footer className="bg-gray-800 text-gray-300 py-4">
+        <div className="container mx-auto px-4 text-center">
+          © 2025 Your Company Name. All rights reserved.
+        </div>
       </footer>
     </div>
   );

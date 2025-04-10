@@ -23,6 +23,8 @@ func Route(db *gorm.DB) *gin.Engine {
 	// Setup routes
 	router.POST("/api/expense/add", handlers.AddExpense(db))
 	router.GET("/api/expenses/get", handlers.GetExpenses(db))
+	router.PATCH("/api/expense/:id/update", handlers.UpdateExpense(db))
+	
 	router.DELETE("/api/expense/:id/delete", handlers.DeleteExpense(db))
 	router.POST("/api/expense/:id/category", handlers.AddOrUpdateCategoryToExpense(db))
 	router.GET("/api/expenses/total", handlers.TotalExpenses(srv.Expense))

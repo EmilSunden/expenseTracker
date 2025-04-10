@@ -15,9 +15,13 @@ export const useFetch = (url, options = {}, autoFetch = true) => {
         const mergedOptions = { ...options, ...customOptions };
         const response = await fetch(url, mergedOptions);
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          let errorPayload = await response.json().catch(() => ({}));
+          const message =
+            errorPayload.error || `HTTP error! status: ${response.status}`;
+          throw new Error(message);
         }
         const json = await response.json();
+        console.log("Fetched data:", json);
         setData(json);
         return json;
       } catch (err) {

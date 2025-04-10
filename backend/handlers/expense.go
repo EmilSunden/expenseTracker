@@ -25,6 +25,10 @@ func AddExpense(db *gorm.DB) gin.HandlerFunc {
 			Description: input.Description,
 			Amount:      input.Amount,
 		}
+		if input.CategoryID != nil && *input.CategoryID != 0 {
+			// Assign the provided CategoryID
+			expense.CategoryID = input.CategoryID
+		}
 		// create the expense in the database
 		if err := db.Create(&expense).Error; err != nil {
 			c.JSON(500, gin.H{"error": "Failed to create expense"})
@@ -115,23 +119,41 @@ func GetExpenses(db *gorm.DB) gin.HandlerFunc {
 }
 func UpdateExpense(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		// Get the expense ID from URL, e.g. /expense/:id
+		expenseIDParam := c.Param("id")
+		expenseID, err := strconv.ParseUint(expenseIDParam, 10, 64)
+		if err != nil {
+			c.JSON(400, gin.H{"error": "Invalid expense ID"})
+			return
+		}
+
+		// Retrieve the existing expense
+		var expense models.Expense
+		if err := db.First(&expense, expenseID).Error; err != nil {
+			c.JSON(404, gin.H{"error": "Expense not found"})
+			return
+		}
+
+		// Parse the request body into the input struct
 		var input dto.ExpenseInput
-		// parse the request body into the expense struct
 		if err := c.ShouldBindJSON(&input); err != nil {
 			c.JSON(400, gin.H{"error": "Invalid input"})
 			return
 		}
-		expense := models.Expense{
-			Title:       input.Title,
-			Description: input.Description,
-			Amount:      input.Amount,
-		}
-		// create the expense in the database
+
+		// Overwrite fields with the new values
+		expense.Title = input.Title
+		expense.Description = input.Description
+		expense.Amount = input.Amount
+
+
+		// Save the updated expense in the database
 		if err := db.Save(&expense).Error; err != nil {
 			c.JSON(500, gin.H{"error": "Failed to update expense"})
 			return
 		}
-		// return the created expense
+
+		// Return the updated expense
 		c.JSON(200, gin.H{"expense": expense})
 	}
 }
