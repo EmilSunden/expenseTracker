@@ -1,9 +1,9 @@
-// src/components/ExpenseForm.jsx
+// src/components/Expenses/ExpenseForm.jsx
 import React, { useState, useEffect, useMemo } from "react";
 import { useFetch } from "../../hooks/useFetch";
 
 const ExpenseForm = ({ expense, onExpenseSaved }) => {
-  // Set up local state for the expense fields
+  // Set up local state for the expense fields; pre-fill if editing.
   const [title, setTitle] = useState(expense ? expense.title : "");
   const [description, setDescription] = useState(
     expense ? expense.description : ""
@@ -11,73 +11,83 @@ const ExpenseForm = ({ expense, onExpenseSaved }) => {
   const [amount, setAmount] = useState(
     expense ? expense.amount.toString() : ""
   );
+  const [isRecurring, setIsRecurring] = useState(
+    expense ? expense.isRecurring : true
+  );
   // New state for category (store the ID as a string)
   const [categoryId, setCategoryId] = useState(expense?.category?.ID || "");
+
+  // Memoize options for fetch to avoid unnecessary re-fetches.
   const options = useMemo(() => ({}), []);
-  // Fetch categories from the endpoint
-  // Assuming the endpoint returns an object { categories: [...] }
+
+  // Fetch categories from the endpoint.
+  // Adjust this if your endpoint returns data as { categories: [...] } or as an array.
   const {
     data: categoriesData,
     error: categoryError,
     loading: categoriesLoading,
-  } = useFetch("http://localhost:5000/api/categories/get", options, true);
-  console.log("Fetched categories:::::", categoriesData);
-  // Build the expense payload, including categoryID (or null if not set)
+  } = useFetch("http://localhost:5000/api/categories", options, true);
+  console.log("Fetched categories:", categoriesData);
+
+  // Build the expense payload with a stable object.
   const expenseData = useMemo(() => {
     return {
       title,
       description,
       amount: Number(amount),
       category_id: categoryId ? Number(categoryId) : null,
+      isRecurring,
     };
-  }, [title, description, amount, categoryId]);
+  }, [title, description, amount, categoryId, isRecurring]);
 
-  // Determine the endpoint and HTTP method.
-  // For update, we expect expense to be provided and use PATCH (and include the expense ID in the URL)
+  // Determine the endpoint and HTTP method based on if we're updating or creating.
   const endpoint = expense
-    ? `http://localhost:5000/api/expense/${expense.ID}/update`
-    : "http://localhost:5000/api/expense/add";
+    ? `http://localhost:5000/api/expenses/${expense.ID}`
+    : "http://localhost:5000/api/expenses";
   const method = expense ? "PATCH" : "POST";
 
-  // Hook for handling POST/PATCH; autoFetch is disabled and will be triggered manually on submission.
+  // Set up a fetch hook for submission; autoFetch is disabled.
   const { loading, error, refetch } = useFetch(
     endpoint,
     {
       method,
       headers: { "Content-Type": "application/json" },
-      // We'll pass in the body on submission
     },
     false
   );
 
-  // When editing, update form fields if the expense prop changes.
+  // When editing, update local state if the expense prop changes.
   useEffect(() => {
     if (expense) {
       setTitle(expense.title);
       setDescription(expense.description);
       setAmount(expense.amount.toString());
       setCategoryId(expense?.category?.ID || "");
+      setIsRecurring(expense.is_recurring);
     }
   }, [expense]);
 
+  // Handle form submission.
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Expense Data Submitted: ", expenseData);
 
-    // Trigger the POST/PATCH request with the expense data as the body.
-    await refetch({
-      body: JSON.stringify(expenseData),
-    });
-
-    // Notify the parent to refresh the expense list and clear any selected expense.
-    onExpenseSaved();
-
-    // If this is a "create" request, clear the form fields.
-    if (!expense) {
-      setTitle("");
-      setDescription("");
-      setAmount("");
-      setCategoryId("");
+    try {
+      await refetch({
+        body: JSON.stringify(expenseData),
+      });
+      // Notify the parent that the expense was saved.
+      onExpenseSaved();
+      // Clear form fields if creating new. For updating, you might want to keep values.
+      if (!expense) {
+        setTitle("");
+        setDescription("");
+        setAmount("");
+        setCategoryId("");
+        setIsRecurring(true);
+      }
+    } catch (err) {
+      console.error("Error submitting expense:", err);
     }
   };
 
@@ -172,6 +182,20 @@ const ExpenseForm = ({ expense, onExpenseSaved }) => {
         ) : (
           <p className="text-gray-500">No categories exist</p>
         )}
+      </div>
+
+      {/* Recurring Checkbox */}
+      <div className="mb-4 flex items-center">
+        <input
+          id="isRecurring"
+          type="checkbox"
+          checked={isRecurring}
+          onChange={(e) => setIsRecurring(e.target.checked)}
+          className="mr-2"
+        />
+        <label htmlFor="isRecurring" className="text-gray-700">
+          Recurring (Fasta utgifter)
+        </label>
       </div>
 
       {/* Feedback for Loading/Error during submission */}

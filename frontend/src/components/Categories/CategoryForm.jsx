@@ -8,7 +8,7 @@ const CategoryForm = ({ onCategorySaved }) => {
   // Set up the custom hook for creating a category (POST).
   // autoFetch is disabled so that the request is only triggered on submit.
   const { loading, error, refetch } = useFetch(
-    "http://localhost:5000/api/category/add",
+    "http://localhost:5000/api/categories",
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

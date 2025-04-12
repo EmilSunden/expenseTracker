@@ -4,6 +4,8 @@ go 1.23.5
 
 require gorm.io/driver/postgres v1.5.11
 
+require github.com/robfig/cron/v3 v3.0.1 // indirect
+
 require (
 	github.com/bytedance/sonic v1.13.2 // indirect
 	github.com/bytedance/sonic/loader v0.2.4 // indirect

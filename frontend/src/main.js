@@ -7,7 +7,9 @@ const createWindow = () => {
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false,
-      }
+      },
+   
+     
     })
    // Open the DevTools.
    win.webContents.openDevTools();

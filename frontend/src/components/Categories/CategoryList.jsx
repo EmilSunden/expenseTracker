@@ -1,5 +1,6 @@
-// src/components/CategoryList.jsx
+// src/components/Categories/CategoryList.jsx
 import React from "react";
+import CategoryItemWithViews from "./CategoryItemWithViews";
 
 const CategoryList = ({ categories }) => {
   return (
@@ -9,15 +10,8 @@ const CategoryList = ({ categories }) => {
         <p className="text-gray-500">No categories exist</p>
       ) : (
         <ul className="space-y-3">
-          {categories.map((category) => (
-            <li
-              key={category.ID}
-              className="py-2 border-b last:border-none flex justify-between items-center"
-            >
-              <div>
-                <p className="font-semibold text-gray-900">{category.name}</p>
-              </div>
-            </li>
+          {categories.map((cat) => (
+            <CategoryItemWithViews key={cat.ID} category={cat} />
           ))}
         </ul>
       )}
