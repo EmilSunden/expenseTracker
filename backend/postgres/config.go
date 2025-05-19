@@ -31,5 +31,6 @@ func (c Config) GetConnectionString() (string, error) {
 	}
 	connectionString := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		c.Host, port, c.User, c.Password, c.Database)
+
 	return connectionString, nil
 }

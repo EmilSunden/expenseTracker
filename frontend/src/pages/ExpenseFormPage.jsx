@@ -11,7 +11,7 @@ const ExpenseFormPage = () => {
   // Create a key that changes based on  whether we're editing or creating.
   const formKey = expense ? "edit" : "create";
 
-  const pageTitle = expense ? "Update Expense" : "Create Expense";
+  const pageTitle = expense ? "Update Expense" : "Add New Expense";
 
   const handleExpenseSaved = () => {
     navigate("/expenses");

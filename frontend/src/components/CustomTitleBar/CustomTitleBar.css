@@ -1,0 +1,48 @@
+.custom-titlebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2c3e50; /* Dark blue-gray for a modern look */
+    color: white;
+    height: 2rem;
+    -webkit-app-region: drag; /* Make the entire title bar draggable */
+    user-select: none;
+    padding: 0 8px;
+  }
+  
+  .titlebar-drag-area {
+    flex: 1;
+  }
+  
+  .title {
+    font-size: 14px;
+    margin-left: 4px;
+  }
+  
+  .titlebar-controls {
+    display: flex;
+    -webkit-app-region: no-drag; /* Prevent controls from being draggable */
+  }
+  
+  .titlebar-button {
+    border: none;
+    background: transparent;
+    color: white;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+  }
+  
+  .titlebar-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .titlebar-button.close:hover {
+    background-color: #e74c3c; /* Red on close hover */
+  }
+  

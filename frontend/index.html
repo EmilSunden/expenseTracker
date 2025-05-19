@@ -9,10 +9,38 @@
     <link rel="apple-touch-icon" href="/logo192.png" />
     <link rel="manifest" href="/manifest.json" />
     <title>React App</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    
+      /* Scrollable container */
+      .scroll-container {
+        height: 100vh;
+        overflow-y: auto;
+        background-color: #f3f4f6;
+        /* Tailwind's gray-100 */
+      }
+    
+      /* Sticky element */
+      .sticky-test {
+        position: sticky;
+        top: 0;
+        background-color: red;
+        color: white;
+        padding: 16px;
+        font-size: 1.25rem;
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+  
     <div id="root"></div>
+  
     <script type="module" src="/src/index.jsx"></script>
+  
   </body>
 </html>

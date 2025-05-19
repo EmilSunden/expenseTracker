@@ -1,25 +1,20 @@
-// src/components/AddExpenseBurger.jsx
+// src/components/Burgermenu/Burgermenu.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const AddExpenseBurger = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <div className="relative">
-      {/* Toggle Button with Hover Effects */}
+    <div className="relative md:hidden">
       <button
-        onClick={() => setIsOpen((prev) => !prev)}
-        className="p-2 rounded hover:bg-blue-600 transition-colors focus:outline-none cursor-pointer"
-        aria-label="Toggle add expense"
+        onClick={toggleMenu}
+        className="p-2 focus:outline-none hover:bg-blue-600 rounded"
       >
-        <svg
-          className="w-6 h-6 text-white"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        {/* Burger icon */}
+        <svg className="w-6 h-6" fill="none" stroke="currentColor">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -28,28 +23,24 @@ const AddExpenseBurger = () => {
           />
         </svg>
       </button>
-
-      {/* Floating Menu */}
-      {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg transition duration-200 z-50">
-          <div className="p-4">
+      {menuOpen && (
+        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50">
+          <nav className="flex flex-col p-2 space-y-2">
             <Link
               to="/expenses/form"
-              onClick={() => setIsOpen(false)}
-              className="block text-center text-blue-500 font-semibold hover:text-blue-700 transition-colors"
+              onClick={() => setMenuOpen(false)}
+              className="hover:bg-gray-100 p-2 rounded"
             >
               Add Expense
             </Link>
-          </div>
-          <div className="p-4">
             <Link
               to="/categories/add"
-              onClick={() => setIsOpen(false)}
-              className="block text-center text-blue-500 font-semibold hover:text-blue-700 transition-colors"
+              onClick={() => setMenuOpen(false)}
+              className="hover:bg-gray-100 p-2 rounded"
             >
               Add Category
             </Link>
-          </div>
+          </nav>
         </div>
       )}
     </div>

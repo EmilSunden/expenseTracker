@@ -1,33 +1,30 @@
 // src/components/Sidebar.jsx
 import React from "react";
+import { Link } from "react-router-dom";
 
-const Sidebar = ({ isOpen, onClose, children }) => {
+const Sidebar = () => {
   return (
-    <>
-      {/* Overlay: covers the entire viewport with a high z-index */}
-      <div
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 z-50 ${
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-        onClick={onClose}
-      ></div>
-      {/* Sidebar container: higher z-index than the overlay */}
-      <div
-        className={`fixed top-0 left-0 h-full w-80 bg-white shadow-lg transition-transform duration-300 z-60 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="p-4 border-b">
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 focus:outline-none"
-          >
-            Close
-          </button>
-        </div>
-        <div className="p-4">{children}</div>
-      </div>
-    </>
+    <aside
+      className="hidden md:block w-60 bg-white p-4 shadow-md border-r border-gray-200 sticky top-0"
+      style={{ top: "1rem", position: "sticky" }}
+    >
+      {/* top-20 means it stays below a ~5rem (80px) header offset (adjust as needed) */}
+      <h2 className="text-lg font-semibold mb-2">Quick Actions</h2>
+      <nav className="flex flex-col space-y-2">
+        <Link
+          to="/expenses/form"
+          className="px-2 py-1 rounded hover:bg-gray-100 transition-colors"
+        >
+          Add Expense
+        </Link>
+        <Link
+          to="/categories/add"
+          className="px-2 py-1 rounded hover:bg-gray-100 transition-colors"
+        >
+          Add Category
+        </Link>
+      </nav>
+    </aside>
   );
 };
 
